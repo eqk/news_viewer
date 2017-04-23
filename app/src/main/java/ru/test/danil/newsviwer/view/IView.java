@@ -9,5 +9,5 @@ import ru.test.danil.newsviwer.model.News;
  */
 
 public interface IView {
-    void showList(List<News> newsList);
+    void startNewsDetailFragment(News news);
 }

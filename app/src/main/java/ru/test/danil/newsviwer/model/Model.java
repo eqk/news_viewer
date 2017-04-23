@@ -16,6 +16,8 @@ import rx.schedulers.Schedulers;
  */
 
 public class Model implements IModel {
+
+    public static final int NEWS_PER_BLOCK = 10;
     @Override
     public Observable<List<News>> getNewsList()
     {
@@ -28,7 +30,7 @@ public class Model implements IModel {
     {
         Faker f = new Faker();
         List<News> list = new ArrayList<News>();
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < NEWS_PER_BLOCK; ++i) {
             list.add(new News(f.lorem().sentence(), f.lorem().paragraph()));
         }
         return list;

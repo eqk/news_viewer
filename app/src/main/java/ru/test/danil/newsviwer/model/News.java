@@ -1,10 +1,12 @@
 package ru.test.danil.newsviwer.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Krylov Danil on 21.04.2017.
  */
 
-public class News {
+public class News implements Serializable {
     private String title;
     private String text;
 

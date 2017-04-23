@@ -11,6 +11,7 @@ import java.util.List;
 
 import ru.test.danil.newsviwer.R;
 import ru.test.danil.newsviwer.model.News;
+import ru.test.danil.newsviwer.presenter.NewsPresenter;
 
 /**
  * Created by Krylov Danil on 22.04.2017.
@@ -19,6 +20,14 @@ import ru.test.danil.newsviwer.model.News;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private List<News> newsList = new ArrayList<>();
+
+    private NewsPresenter presenter;
+
+    public RecyclerViewAdapter(ArrayList<News> list, NewsPresenter presenter)
+    {
+        this.newsList = list;
+        this.presenter = presenter;
+    }
 
     public void setNewsList(List<News> newsList) {
         this.newsList = newsList;
@@ -33,9 +42,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        News news = newsList.get(i);
+        final News news = newsList.get(i);
         viewHolder.title.setText(news.getTitle());
         viewHolder.text.setText(news.getText());
+        viewHolder.text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.clickNews(news);
+            }
+        });
     }
 
     @Override
