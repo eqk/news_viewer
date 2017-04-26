@@ -2,6 +2,7 @@ package ru.test.danil.newsviwer.presenter;
 
 import android.os.Bundle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,31 +41,26 @@ public class NewsPresenter implements IPresenter {
             subscription.unsubscribe();
         }
 
-        if (savedInstanceState != null) {
-            newsList = (List<News>) savedInstanceState.getSerializable(BUNDLE_NEWS_LIST_KEY);
-            view.showList(newsList);
-        } else {
-            subscription = model.getNewsList()
-                    .subscribe(new Observer<List<News>>() {
-                        @Override
-                        public void onCompleted() {
+        subscription = model.getNewsList()
+                .subscribe(new Observer<List<News>>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<News> news) {
+                        if (news != null && !news.isEmpty()) {
+                            newsList = news;
+                            view.showList(newsList);
                         }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(List<News> news) {
-                            if (news != null && !news.isEmpty()) {
-                                newsList = news;
-                                view.showList(newsList);
-                            }
-                        }
-                    });
-        }
+                    }
+                });
     }
 
     @Override
@@ -81,6 +77,6 @@ public class NewsPresenter implements IPresenter {
     }
 
     public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(BUNDLE_NEWS_LIST_KEY, new ArrayList<>(newsList));
+        outState.putSerializable(BUNDLE_NEWS_LIST_KEY, (Serializable) newsList);
     }
 }
